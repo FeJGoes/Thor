@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Plano;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class Cliente extends Authenticatable implements JWTSubject
 {
@@ -72,10 +74,20 @@ class Cliente extends Authenticatable implements JWTSubject
         'telefone' => 'string',
         'estado' => 'string',
         'cidade' => 'string',
-        'data_nascimento' => 'datatime:d/m/Y',
+        'data_nascimento' => 'datetime:d/m/Y',
         'avatar' => 'string',
     ];
 
+    /**
+     * Aplica a hash sobre a senha do cliente.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setSenhaAttribute($value)
+    {
+        $this->attributes['senha'] = Hash::make($value);
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -95,5 +107,13 @@ class Cliente extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Planos viculados ao cliente
+     */
+    public function planos()
+    {
+        return $this->belongsToMany(Plano::class, 'clientes_planos');
     }
 }

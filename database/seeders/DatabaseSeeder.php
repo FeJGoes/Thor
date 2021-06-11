@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cliente;
+use App\Models\Plano;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Cliente::factory()
+            ->has(Plano::factory(), 'planos')
+            ->count(25)
+            ->create();
+
     }
 }
