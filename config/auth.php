@@ -71,8 +71,8 @@ return [
         ],
 
         'clientes' => [
-            'driver' => 'database',
-            'table' => 'clientes',
+            'driver' => 'eloquent_pt_br',
+            'model' => App\Models\Cliente::class,
         ],
 
         // 'users' => [

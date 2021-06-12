@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthFormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AuthFormRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class APIAuthController extends Controller
+class ApiAuthController extends Controller
 {
-    /**
+        /**
      * Get a JWT via given credentials.
      *
      * @param App\Http\Requests\AuthFormRequest $request

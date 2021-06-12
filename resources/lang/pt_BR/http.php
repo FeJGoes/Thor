@@ -10,7 +10,7 @@ return [
     |
     */
 
-    '401' => 'Não autorizado',
+    '401' => 'Recurso não encontrado',
     '403' => 'Proibido',
     '404' => 'Não encontrado',
 

@@ -76,7 +76,19 @@ class Cliente extends Authenticatable implements JWTSubject
         'cidade' => 'string',
         'data_nascimento' => 'datetime:d/m/Y',
         'avatar' => 'string',
+        'criado_em' => 'datetime:d/m/Y H:i:s',
+        'atualizado_em' => 'datetime:d/m/Y H:i:s',
     ];
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
 
     /**
      * Aplica a hash sobre a senha do cliente.
