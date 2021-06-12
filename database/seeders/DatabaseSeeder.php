@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Cliente;
 use App\Models\Plano;
+use App\Models\Relationships\ClientePlano;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,10 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Cliente::factory()
-            ->has(Plano::factory(), 'planos')
-            ->count(25)
-            ->create();
+        $this->call([
+            ClientesSeeder::class,
+            PlanosSeeder::class,
+        ]);
 
+        $planos = Plano::pluck('id');
+
+        Cliente::all()->each(function($cliente) use ($planos) {
+            ClientePlano::create([
+                'cliente_id' => $cliente->id,
+                'plano_id' => $planos->random()
+            ]);
+        });
     }
 }
