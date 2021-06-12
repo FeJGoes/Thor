@@ -7,6 +7,7 @@ use Throwable;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -42,6 +43,10 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->reportable(function(Throwable $e) {
+            //
+        });
+
         $this->renderable(function (Throwable $e, $request) {
             if ($request->expectsJson() || $request->is('api/*')) {
                 if ($e instanceof NotFoundHttpException) {
@@ -50,6 +55,13 @@ class Handler extends ExceptionHandler
 
                 if ($e instanceof AuthorizationException ) {
                     return response()->json(['message' => __('http.403')], 403);
+                }
+
+                if ($e instanceof ValidationException ) {
+                    return response()->json([
+                        'message' => 'Os dados são inválidos',
+                        'errors' => $e->errors(),
+                    ], $e->status);
                 }
 
                 if ($e instanceof AuthenticationException
@@ -70,7 +82,7 @@ class Handler extends ExceptionHandler
                     }
                 }
 
-                return response(['error' => $e->getMessage() ?: $e], $e->getStatusCode() ?: 400);
+                return response(['error' => $e->getMessage() ?: []], $this->isHttpException($e) ? $e->getStatusCode() : 500);
             }
         });
     }
