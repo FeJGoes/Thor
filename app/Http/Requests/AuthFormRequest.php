@@ -24,7 +24,7 @@ class AuthFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email:rfc|exists:usuarios,email',
+            'email' => 'required|email:rfc|exists:clientes,email',
             'senha' => 'required|min:6'
         ];
     }

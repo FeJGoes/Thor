@@ -46,6 +46,15 @@ class Plano extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'pivot'
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -54,8 +63,8 @@ class Plano extends Model
         'ativo' => 'boolean',
         'tipo' => 'string',
         'mensalidade' => 'decimal:2',
-        'criado_em' => 'datetime:d/m/Y',
-        'atualizado_em' => 'datetime:d/m/Y',
+        'criado_em' => 'datetime:d/m/Y H:i:s',
+        'atualizado_em' => 'datetime:d/m/Y H:i:s',
     ];
 
     /**

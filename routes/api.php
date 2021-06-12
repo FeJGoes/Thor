@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\APIAuthController;
+use App\Http\Controllers\ApiAuthController;
+use App\Http\Controllers\ClientesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,29 +14,35 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+$parameters = [
+    'clientes' => 'cliente'
+];
 
 Route::post('entrar', [
-    APIAuthController::class,'signIn'
+    ApiAuthController::class,'signIn'
 ])->name('api.auth.sing-in');
 
 Route::post('registrar', [
-    APIAuthController::class,'signIn'
-])->name('api.auth.sing-in');
+    ClientesController::class, 'store'
+])->name('api.cliente.store');
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->group(function () use ($parameters){
 
     Route::delete('sair', [
-        APIAuthController::class, 'signOut'
+        ApiAuthController::class, 'signOut'
     ])->name('api.auth.sign-out');
 
     Route::post('renovar', [
-        APIAuthController::class, 'refresh'
+        ApiAuthController::class, 'refresh'
     ])->name('api.auth.refresh');
 
     Route::get('eu',[
-        APIAuthController::class, 'me'
+        ApiAuthController::class, 'me'
     ])->name('api.auth.me');
 
+    Route::apiResources([
+        'clientes' => ClientesController::class
+    ],['parameters' => $parameters]);
 
 
 });
