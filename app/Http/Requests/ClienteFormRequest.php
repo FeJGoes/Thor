@@ -37,7 +37,7 @@ class ClienteFormRequest extends FormRequest
             'telefone' => [($isCreate ? 'required' : 'sometimes'),'regex:/^(\(\d{2}\)\s?)(\d{4,5}\-\d{4})|(\(\d{2}\)\s?)(\d{8,9})$/'],
             'estado' => ($isCreate ? 'required' : 'sometimes').'|in:'.join(',', array_keys(__('estados'))),
             'cidade' => 'sometimes|string|min:2|max:255',
-            'data_nascimento' => 'sometimes|date|after_or_equal:1890-01-01',
+            'data_nascimento' => 'sometimes|date_format:Y-m-d|after_or_equal:1890-01-01',
             'imagem' => 'sometimes|file|image|dimensions:min_width=100,min_height=200|max:2048',
 
             'planos' => 'sometimes|array|distinct',
