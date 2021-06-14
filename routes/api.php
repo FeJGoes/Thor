@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\PlanosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,10 @@ Route::post('entrar', [
 Route::post('registrar', [
     ClientesController::class, 'store'
 ])->name('api.cliente.store');
+
+Route::get('planos',[
+    PlanosController::class, 'index'
+])->name('api.planos.index');
 
 Route::middleware('auth:api')->group(function () use ($parameters){
 
