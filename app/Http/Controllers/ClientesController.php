@@ -6,6 +6,7 @@ use App\Http\Requests\ClienteFormRequest;
 use App\Models\Cliente;
 use App\Models\Plano;
 use App\Models\Relationships\ClientePlano;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -38,11 +39,13 @@ class ClientesController extends Controller
         DB::beginTransaction();
         try {
 
-            if(!$storagePath = $request->file('imagem')->store('avatares')) {
-                throw new FileException(__('Não foi possível salavar a imagem enviada'));
-            }
+            if($request->has('imagem')) {
+                if(!$storagePath = $request->file('imagem')->store('avatares')) {
+                    throw new FileException(__('Não foi possível salavar a imagem enviada'));
+                }
 
-            $request->merge(['avatar' => $storagePath]);
+                $request->merge(['avatar' => $storagePath]);
+            }
 
             if(!$request->has('ativo')) {
                 $request->merge(['ativo' => true]);
